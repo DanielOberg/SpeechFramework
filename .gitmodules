@@ -1,0 +1,6 @@
+[submodule "SpeechFramework/ThirdParty/aquila"]
+	path = SpeechFramework/ThirdParty/aquila
+	url = https://github.com/zsiciarz/aquila.git
+[submodule "SpeechFramework/ThirdParty/azure-storage-ios"]
+	path = SpeechFramework/ThirdParty/azure-storage-ios
+	url = https://github.com/Azure/azure-storage-ios.git
