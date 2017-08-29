@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		6517BAE91F505731001B1AEE /* SpeechFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 6517BAE71F505731001B1AEE /* SpeechFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6517BAF91F505750001B1AEE /* SoundRecorderWrapper.mm in Headers */ = {isa = PBXBuildFile; fileRef = 6517BAF81F505750001B1AEE /* SoundRecorderWrapper.mm */; settings = {ATTRIBUTES = (Public, ); }; };
-		6517BAFA1F505750001B1AEE /* WhichWord.mm in Headers */ = {isa = PBXBuildFile; fileRef = 6517BAF51F50574F001B1AEE /* WhichWord.mm */; settings = {ATTRIBUTES = (Public, ); }; };
+		6552AFAC1F5073880039DF95 /* SoundRecorderWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6517BAF61F50574F001B1AEE /* SoundRecorderWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6552AFAD1F50738B0039DF95 /* WhichWord.h in Headers */ = {isa = PBXBuildFile; fileRef = 6517BAF71F505750001B1AEE /* WhichWord.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		656A8AD11F50650100746316 /* fft4g.c in Sources */ = {isa = PBXBuildFile; fileRef = 656A8AD01F50650100746316 /* fft4g.c */; };
 		6599B5A71F506DBE00197F7D /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6599B5A51F506DBE00197F7D /* opencv2.framework */; };
 		6599B5A81F506DBE00197F7D /* AZSClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6599B5A61F506DBE00197F7D /* AZSClient.framework */; };
@@ -34,7 +34,6 @@
 		659B1BA31F505D5400C9A7D4 /* TextPlot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 659B1B861F505CD900C9A7D4 /* TextPlot.cpp */; };
 		659B1BA61F505F6800C9A7D4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 659B1BA51F505F6800C9A7D4 /* OpenAL.framework */; };
 		659B1BAE1F5060B100C9A7D4 /* SoundRecorder.cc in Sources */ = {isa = PBXBuildFile; fileRef = 659B1BAC1F5060B000C9A7D4 /* SoundRecorder.cc */; };
-		659B1BAF1F5060B100C9A7D4 /* SoundRecorder.cc in Headers */ = {isa = PBXBuildFile; fileRef = 659B1BAC1F5060B000C9A7D4 /* SoundRecorder.cc */; };
 		659B1BB11F50617400C9A7D4 /* SpellingBee.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 659B1BB01F5060FA00C9A7D4 /* SpellingBee.mlmodel */; };
 		659B1BB31F50620900C9A7D4 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 659B1BB21F50620900C9A7D4 /* AVFoundation.framework */; };
 		659B1BB51F50620F00C9A7D4 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 659B1BB41F50620E00C9A7D4 /* libxml2.tbd */; };
@@ -186,9 +185,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6517BAE91F505731001B1AEE /* SpeechFramework.h in Headers */,
-				6517BAFA1F505750001B1AEE /* WhichWord.mm in Headers */,
-				6517BAF91F505750001B1AEE /* SoundRecorderWrapper.mm in Headers */,
-				659B1BAF1F5060B100C9A7D4 /* SoundRecorder.cc in Headers */,
+				6552AFAC1F5073880039DF95 /* SoundRecorderWrapper.h in Headers */,
+				6552AFAD1F50738B0039DF95 /* WhichWord.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

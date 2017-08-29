@@ -24,6 +24,8 @@
 @synthesize kanji;
 @synthesize explanation;
 @synthesize romaji;
+@synthesize kanaArray;
+@synthesize romajiArray;
 @end
 
 
@@ -31,6 +33,7 @@
 
 boost::locale::generator gen_;
 std::vector<std::string> currentRomanjis_;
+std::vector<std::string> currentKanas_;
 JapaneseWord currentWord_;
 
 @synthesize wordIndex;
@@ -55,7 +58,6 @@ JapaneseWord currentWord_;
 }
 
 - (void)update {
-
         charIndex = 0;
         currentWord_ = japaneseWords.at(wordIndex);
         
@@ -70,7 +72,6 @@ std::pair<B,A> flip_pair(const std::pair<A,B> &p)
     return std::pair<B,A>(p.second, p.first);
 }
 
-
 template<typename A, typename B>
 std::map<B,A> flip_map(const std::map<const A, const B> &src)
 {
@@ -79,16 +80,12 @@ std::map<B,A> flip_map(const std::map<const A, const B> &src)
     return dst;
 }
 
-
-
-void updateCurrentRomanjis(JapaneseWord word) {
-    
-    auto hiragana = word.hiragana;
+std::vector<std::pair<std::string, std::string>> kanaListAll() {
     const auto hiraganaToRomaji = flip_map(romajiToHiragana);
     std::vector<std::pair<std::string, std::string>> hiraganaList;
     transform(hiraganaToRomaji.begin(), hiraganaToRomaji.end(), back_inserter(hiraganaList), [](const std::pair<std::string, std::string>& val){return val;} );
     std::sort(hiraganaList.begin(), hiraganaList.end(), [](const std::pair<std::string, std::string> & a, const std::pair<std::string, std::string> & b){ return a.first.size() > b.first.size(); });
-
+    
     const auto katakanaToRomaji = flip_map(romajiToKatakana);
     std::vector<std::pair<std::string, std::string>> kanaList;
     transform(hiraganaList.begin(), hiraganaList.end(), back_inserter(kanaList), [](const std::pair<std::string, std::string>& val){return val;} );
@@ -96,8 +93,13 @@ void updateCurrentRomanjis(JapaneseWord word) {
     
     std::sort(kanaList.begin(), kanaList.end(), [](const std::pair<std::string, std::string> & a, const std::pair<std::string, std::string> & b){ return a.first.size() > b.first.size(); });
 
-    
-    
+    return kanaList;
+}
+
+void updateCurrentRomanjis(JapaneseWord word) {
+    auto hiragana = word.hiragana;
+    auto kanaList = kanaListAll();
+
     currentRomanjis_.clear();
     while (hiragana.size() > 0) {
         for(const auto &hiraganaCharacter : kanaList) {
@@ -105,13 +107,65 @@ void updateCurrentRomanjis(JapaneseWord word) {
                 const auto romanjiCharacter = hiraganaCharacter.second;
         
                 currentRomanjis_.push_back(romanjiCharacter);
+                currentKanas_.push_back(hiraganaCharacter.first);
         
-                //std::cout << hiraganaCharacter.first << " " << romanjiCharacter << std::endl;
                 hiragana.erase(0, hiraganaCharacter.first.size());
                 break;
             }
         }
     }
+}
+
++ (NSArray<NSString*> *) kanaForIndex:(NSInteger) wordIndex {
+    auto word = japaneseWords.at((wordIndex < 0) ? 0 : wordIndex);
+    auto hiragana = word.hiragana;
+    auto kanaList = kanaListAll();
+    
+    NSMutableArray *result = [NSMutableArray new];
+    
+    while (hiragana.size() > 0) {
+        for(const auto &hiraganaCharacter : kanaList) {
+            if (boost::starts_with(hiragana, hiraganaCharacter.first)) {
+                [result addObject:[NSString stringWithUTF8String:hiraganaCharacter.first.c_str()]];
+                
+                hiragana.erase(0, hiraganaCharacter.first.size());
+                break;
+            }
+        }
+    }
+    return result;
+}
+
++ (NSArray<NSString*> *) romajiForIndex:(NSInteger) wordIndex {
+    auto word = japaneseWords.at((wordIndex < 0) ? 0 : wordIndex);
+    auto hiragana = word.hiragana;
+    auto kanaList = kanaListAll();
+    
+    NSMutableArray *result = [NSMutableArray new];
+    
+    while (hiragana.size() > 0) {
+        for(const auto &hiraganaCharacter : kanaList) {
+            if (boost::starts_with(hiragana, hiraganaCharacter.first)) {
+                [result addObject:[NSString stringWithUTF8String:hiraganaCharacter.second.c_str()]];
+                
+                hiragana.erase(0, hiraganaCharacter.first.size());
+                break;
+            }
+        }
+    }
+    return result;
+}
+
++ (NSArray<NSString*> *) kanaAllAvailable {
+    NSMutableArray<NSString*> *mutableArray = [[NSMutableArray alloc] init];
+    auto kanaList = kanaListAll();
+
+    for(const auto &hiraganaCharacter : kanaList) {
+        const auto kanaCharacter = hiraganaCharacter.first;
+        [mutableArray addObject:[NSString stringWithUTF8String:kanaCharacter.c_str()]];
+    }
+    
+    return mutableArray;
 }
 
 - (NSString *) romanjiChar {
@@ -132,19 +186,33 @@ void updateCurrentRomanjis(JapaneseWord word) {
 }
 
 - (JapaneseWordNSObject *) wordAtIndex:(NSInteger) wordIndex {
-    auto word = japaneseWords.at((wordIndex < 0) ? 0 : wordIndex);
+    wordIndex = (wordIndex < 0) ? 0 : wordIndex;
+    auto word = japaneseWords.at(wordIndex);
     
     JapaneseWordNSObject *obj = [JapaneseWordNSObject new];
     obj.explanation = [NSString stringWithUTF8String:word.explanation.c_str()];
     obj.hiragana = [NSString stringWithUTF8String:word.hiragana.c_str()];
     obj.kanji = [NSString stringWithUTF8String:word.kanji.c_str()];
     obj.romaji = [NSString stringWithUTF8String:word.romaji.c_str()];
+    obj.kanaArray = [WhichWord kanaForIndex:wordIndex];
+    obj.romajiArray = [WhichWord romajiForIndex:wordIndex];
     
     return obj;
 }
 
 - (NSUInteger) getPoints {
     return points;
+}
+
+- (NSArray *) kanaCurrentWord {
+    NSMutableArray<NSString*> *mutableArray = [[NSMutableArray alloc] init];
+    auto kanaList = currentKanas_;
+    
+    for(const auto &kanaCharacter : kanaList) {
+        [mutableArray addObject:[NSString stringWithUTF8String:kanaCharacter.c_str()]];
+    }
+    
+    return mutableArray;
 }
 
 - (void)nextChar {

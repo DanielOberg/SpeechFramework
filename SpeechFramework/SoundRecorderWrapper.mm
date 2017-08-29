@@ -16,6 +16,7 @@
 
 #import <opencv2/imgcodecs/ios.h>
 
+#import "SpellingBee.h"
 #import "SoundRecorder.hh"
 
 @implementation SoundRecorderWrapper
@@ -26,6 +27,8 @@
         // Create the data model.
         if (@available(iOS 11.0, *)) {
             _spellingBeeModel = [SpellingBee new];
+            _secToIgnoreOnSuccess = 0.4;
+            _ignoreToTime = 0.0;
         } else {
             // Fallback on earlier versions
         }
@@ -97,7 +100,7 @@ bool matToPixelBuffer(cv::Mat mat, CVPixelBufferRef &pixelBuffer) {
     cv::Mat m;
     std::vector<int16_t> v;
 
-    if (lastImageAndRaw(m, v)) {
+    if (lastImageAndRaw(m, v) && self.ignoreToTime < [[NSDate date] timeIntervalSince1970]) {
         CVPixelBufferRef ref;
         matToPixelBuffer(m, ref);
         
@@ -109,7 +112,9 @@ bool matToPixelBuffer(cv::Mat mat, CVPixelBufferRef &pixelBuffer) {
         NSData *data = [NSData dataWithBytes:v.data() length:sizeof(int16_t)*v.size()];
         
         if (self.onMadeSound != nil) {
-            self.onMadeSound(data, prediction.output1);
+            if (self.onMadeSound(data, prediction.output1)) {
+                self.ignoreToTime = [[NSDate date] timeIntervalSince1970] + self.secToIgnoreOnSuccess;
+            }
         }
     }
 }

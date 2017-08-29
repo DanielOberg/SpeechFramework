@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import "SpellingBee.h"
+@class SpellingBee;
 
 @interface SoundRecorderWrapper : NSObject
 @property (weak, nonatomic) UIImageView *imageView;
@@ -17,7 +17,12 @@
 
 @property (strong, nonatomic) SpellingBee *spellingBeeModel;
 
-@property (nonatomic, copy) void (^onMadeSound)(NSData *, NSDictionary *probabilities);
+@property (assign, nonatomic) double secToIgnoreOnSuccess;
+@property (assign, nonatomic) double ignoreToTime;
+
+@property (nonatomic, copy) BOOL (^onMadeSound)(NSData *, NSDictionary *probabilities);
+
+
 
 - (void)checkForPermissionAndStart;
 - (void)clear;

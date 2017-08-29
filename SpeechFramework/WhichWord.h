@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 
 @interface JapaneseWordNSObject : NSObject
-@property NSString * hiragana;
-@property NSString * kanji;
-@property NSString * explanation;
-@property NSString * romaji;
+@property (strong, nonatomic) NSString * hiragana;
+@property (strong, nonatomic) NSString * kanji;
+@property (strong, nonatomic) NSString * explanation;
+@property (strong, nonatomic) NSString * romaji;
+@property (strong, nonatomic) NSArray * romajiArray;
+@property (strong, nonatomic) NSArray * kanaArray;
 @end
 
 
@@ -27,6 +29,9 @@
 
 - (NSString *) romanjiChar;
 - (NSString *) kanaChar;
+- (NSArray *) kanaCurrentWord;
+
++ (NSArray *) kanaAllAvailable;
 
 @property NSUInteger wordIndex;
 @property NSUInteger charIndex;
