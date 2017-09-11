@@ -47,6 +47,7 @@ const int SSIZE = 44100*0.4; //1024;
 boost::lockfree::spsc_queue<std::tuple<cv::Mat, std::vector<int16_t> > > imagesAndRaws{10};
 bool isPaused = false;
 bool shouldStop = false;
+bool isRunning = false;
 
 void setPause(bool p) {
     isPaused = p;
@@ -178,21 +179,32 @@ void stop() {
 }
 
 int recordSound() {
+    if (isRunning)
+        return 0;
+    
     shouldStop = false;
     isPaused = false;
+    isRunning = true;
     imagesAndRaws.reset();
     
     alGetError();
     ALCdevice *device = alcCaptureOpenDevice(nullptr, SRATE, AL_FORMAT_MONO16, SSIZE);
     if (alGetError() != AL_NO_ERROR || !device) {
+        isRunning = false;
+        isPaused = false;
+        shouldStop = false;
+        
         return 0;
     }
     alcCaptureStart(device);
     if (alGetError() != AL_NO_ERROR || !device) {
+        isRunning = false;
+        isPaused = false;
+        shouldStop = false;
+        
         return 0;
     }
     std::vector<int16_t> big_buffer;
-
 
     while (shouldStop == false) {
         while (isPaused && !shouldStop)
@@ -234,5 +246,8 @@ int recordSound() {
     alcCaptureStop(device);
     alcCaptureCloseDevice(device);
     
+    isRunning = false;
+    isPaused = false;
+    shouldStop = false;
     return 0;
 }

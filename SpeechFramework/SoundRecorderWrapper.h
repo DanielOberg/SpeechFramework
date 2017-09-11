@@ -22,11 +22,10 @@
 
 @property (nonatomic, copy) BOOL (^onMadeSound)(NSData *, NSDictionary *probabilities);
 
-
-
 - (void)checkForPermissionAndStart;
 - (void)clear;
 - (void)setPaused:(BOOL)p;
 - (void)stop;
+- (void)dealloc;
 @end
 

@@ -27,7 +27,7 @@
         // Create the data model.
         if (@available(iOS 11.0, *)) {
             _spellingBeeModel = [SpellingBee new];
-            _secToIgnoreOnSuccess = 0.4;
+            _secToIgnoreOnSuccess = 1.0;
             _ignoreToTime = 0.0;
         } else {
             // Fallback on earlier versions
@@ -117,6 +117,10 @@ bool matToPixelBuffer(cv::Mat mat, CVPixelBufferRef &pixelBuffer) {
             }
         }
     }
+}
+
+- (void)dealloc {
+    stop();
 }
 
 template <typename T>
