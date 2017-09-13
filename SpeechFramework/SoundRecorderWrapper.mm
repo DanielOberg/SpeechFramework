@@ -27,7 +27,7 @@
         // Create the data model.
         if (@available(iOS 11.0, *)) {
             _spellingBeeModel = [SpellingBee new];
-            _secToIgnoreOnSuccess = 1.0;
+            _secToIgnoreOnSuccess = 0.6;
             _ignoreToTime = 0.0;
         } else {
             // Fallback on earlier versions
@@ -41,8 +41,8 @@
 - (void)checkForPermissionAndStart {
     [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
         if (granted) {
-            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord
-                                             withOptions:(AVAudioSessionCategoryOptionDefaultToSpeaker | AVAudioSessionCategoryOptionDuckOthers)
+            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionModeVoiceChat
+                                             withOptions:(AVAudioSessionCategoryOptionDuckOthers)
                                                    error:nil];
             
             dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
@@ -55,8 +55,8 @@
         }
     }];
     
-    [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(tick) userInfo:nil repeats:YES];
-    
+    if (_timer == nil)
+        _timer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(tick) userInfo:nil repeats:YES];
 }
 
 - (void)setPaused:(bool)p {
@@ -69,6 +69,8 @@
 
 - (void)stop {
     stop();
+    [_timer invalidate];
+    _timer = nil;
 }
 
 bool matToPixelBuffer(cv::Mat mat, CVPixelBufferRef &pixelBuffer) {

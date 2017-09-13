@@ -16,6 +16,7 @@
 @property (weak, nonatomic) UILabel *mostLikelyClass;
 
 @property (strong, nonatomic) SpellingBee *spellingBeeModel;
+@property (strong, nonatomic) NSTimer *timer;
 
 @property (assign, nonatomic) double secToIgnoreOnSuccess;
 @property (assign, nonatomic) double ignoreToTime;
