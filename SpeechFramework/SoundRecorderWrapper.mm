@@ -41,10 +41,10 @@
 - (void)checkForPermissionAndStart {
     [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
         if (granted) {
-            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionModeVoiceChat
-                                             withOptions:(AVAudioSessionCategoryOptionDuckOthers)
+            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord
+                                                    mode:AVAudioSessionModeVoiceChat
+                                                 options:AVAudioSessionCategoryOptionDuckOthers
                                                    error:nil];
-            
             dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
             dispatch_async(queue, ^{
                 recordSound();
@@ -59,8 +59,8 @@
         _timer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(tick) userInfo:nil repeats:YES];
 }
 
-- (void)setPaused:(bool)p {
-    setPause(p);
+- (void)setPaused:(BOOL)p {
+    setPause((bool)p);
 }
 
 - (void)clear {

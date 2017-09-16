@@ -260,7 +260,8 @@ const std::map<const std::string, const std::string> romajiToKatakana {
     {"fyu","フュ"},
     {"dyu","デュ"},
     {"xtsu","ッ"},
-    {"dash","ー"}
+    {"dash","ー"},
+    {"xxx","xxx"} // noise
 };
 
 

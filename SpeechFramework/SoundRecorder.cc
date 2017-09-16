@@ -45,9 +45,9 @@ const int SRATE = 44100;
 const int SSIZE = 44100*0.4; //1024;
 
 boost::lockfree::spsc_queue<std::tuple<cv::Mat, std::vector<int16_t> > > imagesAndRaws{10};
-bool isPaused = false;
-bool shouldStop = false;
-bool isRunning = false;
+static bool isPaused = false;
+static bool shouldStop = false;
+static bool isRunning = false;
 
 void setPause(bool p) {
     isPaused = p;
@@ -182,8 +182,6 @@ int recordSound() {
     if (isRunning)
         return 0;
     
-    shouldStop = false;
-    isPaused = false;
     isRunning = true;
     imagesAndRaws.reset();
     
