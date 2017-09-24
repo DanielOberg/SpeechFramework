@@ -33,9 +33,9 @@
 
 + (NSArray *) kanaAllAvailable;
 
-@property NSUInteger wordIndex;
-@property NSUInteger charIndex;
-@property NSUInteger points;
+@property NSInteger wordIndex;
+@property NSInteger charIndex;
+@property NSInteger points;
 
 -(void)uploadBlobToContainer: (NSString *)hiragana withData:(NSData *)dataStr;
 @end

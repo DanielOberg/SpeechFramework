@@ -44,7 +44,7 @@
 const int SRATE = 44100;
 const int SSIZE = 44100*0.4; //1024;
 
-boost::lockfree::spsc_queue<std::tuple<cv::Mat, std::vector<int16_t> > > imagesAndRaws{10};
+boost::lockfree::spsc_queue<std::tuple<cv::Mat, std::vector<int16_t> > > imagesAndRaws{40};
 static bool isPaused = false;
 static bool shouldStop = false;
 static bool isRunning = false;
@@ -224,8 +224,8 @@ int recordSound() {
             while (big_buffer.size() >= SSIZE) {
                 std::vector<double> buffer_double;
 
-                buffer_double.resize(big_buffer.size());
-                for (int i=0; i < big_buffer.size(); i++)
+                buffer_double.resize(SSIZE);
+                for (int i=0; i < SSIZE; i++)
                     buffer_double[i] = ((double)big_buffer[i]) / INT16_MAX;
                 
                 Aquila::SignalSource signalSource(buffer_double, SRATE);
@@ -236,7 +236,7 @@ int recordSound() {
                     imagesAndRaws.push(std::make_tuple(img, big_buffer));
                 }
                 
-                big_buffer.erase(big_buffer.begin(), big_buffer.begin() + (SSIZE / 4));
+                big_buffer.erase(big_buffer.begin(), big_buffer.begin() + (SSIZE / 8));
             }
         }
     }
