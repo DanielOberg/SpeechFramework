@@ -168,6 +168,18 @@ void updateCurrentRomanjis(JapaneseWord word) {
     return mutableArray;
 }
 
++ (NSArray<NSString*> *) romanjiAllAvailable {
+    NSMutableArray<NSString*> *mutableArray = [[NSMutableArray alloc] init];
+    auto kanaList = kanaListAll();
+    
+    for(const auto &hiraganaCharacter : kanaList) {
+        const auto kanaCharacter = hiraganaCharacter.second;
+        [mutableArray addObject:[NSString stringWithUTF8String:kanaCharacter.c_str()]];
+    }
+    
+    return mutableArray;
+}
+
 - (NSString *) romanjiChar {
     return [NSString stringWithUTF8String:currentRomanjis_.at(charIndex).c_str()];
 }

@@ -68,8 +68,14 @@ void clearImagesAndRaws() {
 
 bool isSilence(const cv::Mat &img) {
     double min, max;
-    cv::minMaxLoc(img, &min, &max);
+    cv::Point minLoc;
+    cv::Point maxLoc;
+    cv::minMaxLoc(img, &min, &max, &minLoc, &maxLoc);
 //    std::cout << max << std::endl;
+    
+    if (maxLoc.x > 75)
+        return true;
+    
     bool silence = max < 0.80;
     return silence;
 }
@@ -77,6 +83,8 @@ bool isSilence(const cv::Mat &img) {
 bool soundToImage(Aquila::SignalSource buffer, cv::Mat &resultingImage) {
     uint16_t FRAME_SIZE = 128; // 44100 / 100; // 44100 samples per second
     uint16_t MFCCS = 12;
+    const int MAX_WIDTH = 100;
+
     
     Aquila::FramesCollection frames(buffer, FRAME_SIZE);
     Aquila::Mfcc mfcc(FRAME_SIZE);
@@ -97,7 +105,7 @@ bool soundToImage(Aquila::SignalSource buffer, cv::Mat &resultingImage) {
     }
     mfccMat = mfccMat.t();
     
-    if (isSilence(mfccMat)) {
+    if (isSilence(mfccMat(cv::Rect(0,0,MAX_WIDTH,mfccMat.rows)))) {
         return false;
     }
     
@@ -159,10 +167,12 @@ bool soundToImage(Aquila::SignalSource buffer, cv::Mat &resultingImage) {
         xmax = mfccMat.cols - 1;
     }
     
-    const int MAX_WIDTH = 100;
     
-    if (xmax-xmin > MAX_WIDTH)
-        xmax = xmin + MAX_WIDTH;
+//    if (xmax-xmin > MAX_WIDTH)
+//        xmax = xmin + MAX_WIDTH;
+    
+    xmax = MAX_WIDTH;
+    xmin = 0;
     
     cv::Mat out = cv::Mat::zeros(concatenated.rows, MAX_WIDTH, concatenated.type());
     concatenated(cv::Rect(xmin,0, xmax - xmin,concatenated.rows)).copyTo(out(cv::Rect(0,0, xmax - xmin,concatenated.rows)));
@@ -212,7 +222,6 @@ int recordSound() {
         alcGetIntegerv(device, ALC_CAPTURE_SAMPLES, (ALCsizei)sizeof(ALint), &samples_available);
         if (samples_available > 0)
         {
-        
             std::vector<int16_t> buffer_int16;
 
             buffer_int16.resize(samples_available);
@@ -236,7 +245,7 @@ int recordSound() {
                     imagesAndRaws.push(std::make_tuple(img, big_buffer));
                 }
                 
-                big_buffer.erase(big_buffer.begin(), big_buffer.begin() + (SSIZE / 8));
+                big_buffer.erase(big_buffer.begin(), big_buffer.begin() + (SSIZE / 6));
             }
         }
     }

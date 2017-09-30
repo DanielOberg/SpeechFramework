@@ -32,6 +32,7 @@
 - (NSArray *) kanaCurrentWord;
 
 + (NSArray *) kanaAllAvailable;
++ (NSArray *) romanjiAllAvailable;
 
 @property NSInteger wordIndex;
 @property NSInteger charIndex;
