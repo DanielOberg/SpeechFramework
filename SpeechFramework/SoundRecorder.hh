@@ -20,5 +20,6 @@ bool lastImageAndRaw(cv::Mat &image, std::vector<int16_t> &data);
 void clearImagesAndRaws();
 void setPause(bool pause);
 void stop();
+void init();
 
 #endif /* SoundRecorder_h */

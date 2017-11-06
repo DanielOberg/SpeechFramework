@@ -27,7 +27,7 @@
         // Create the data model.
         if (@available(iOS 11.0, *)) {
             _spellingBeeModel = [SpellingBee new];
-            _secToIgnoreOnSuccess = 0.6;
+            _secToIgnoreOnSuccess = 0.4;
             _ignoreToTime = 0.0;
         } else {
             // Fallback on earlier versions
@@ -47,6 +47,7 @@
                                                    error:nil];
             dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
             dispatch_async(queue, ^{
+                init();
                 recordSound();
             });
         }

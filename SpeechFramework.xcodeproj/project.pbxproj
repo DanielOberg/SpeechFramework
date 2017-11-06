@@ -9,12 +9,10 @@
 /* Begin PBXBuildFile section */
 		6517BAE91F505731001B1AEE /* SpeechFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 6517BAE71F505731001B1AEE /* SpeechFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6552AFAC1F5073880039DF95 /* SoundRecorderWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6517BAF61F50574F001B1AEE /* SoundRecorderWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6552AFAD1F50738B0039DF95 /* WhichWord.h in Headers */ = {isa = PBXBuildFile; fileRef = 6517BAF71F505750001B1AEE /* WhichWord.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		656A8AD11F50650100746316 /* fft4g.c in Sources */ = {isa = PBXBuildFile; fileRef = 656A8AD01F50650100746316 /* fft4g.c */; };
 		6599B5A71F506DBE00197F7D /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6599B5A51F506DBE00197F7D /* opencv2.framework */; };
 		6599B5A81F506DBE00197F7D /* AZSClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6599B5A61F506DBE00197F7D /* AZSClient.framework */; };
 		659B1B121F50590C00C9A7D4 /* SoundRecorderWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6517BAF81F505750001B1AEE /* SoundRecorderWrapper.mm */; };
-		659B1B131F50590E00C9A7D4 /* WhichWord.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6517BAF51F50574F001B1AEE /* WhichWord.mm */; };
 		659B1B231F5059F500C9A7D4 /* libboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 659B1B221F5059F500C9A7D4 /* libboost.a */; };
 		659B1B941F505D2100C9A7D4 /* AquilaFft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 659B1B871F505CD900C9A7D4 /* AquilaFft.cpp */; };
 		659B1B951F505D2400C9A7D4 /* Dct.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 659B1B8D1F505CD900C9A7D4 /* Dct.cpp */; };
@@ -44,9 +42,7 @@
 		6517BAE41F505731001B1AEE /* SpeechFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SpeechFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6517BAE71F505731001B1AEE /* SpeechFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpeechFramework.h; sourceTree = "<group>"; };
 		6517BAE81F505731001B1AEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6517BAF51F50574F001B1AEE /* WhichWord.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WhichWord.mm; sourceTree = "<group>"; };
 		6517BAF61F50574F001B1AEE /* SoundRecorderWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SoundRecorderWrapper.h; sourceTree = "<group>"; };
-		6517BAF71F505750001B1AEE /* WhichWord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WhichWord.h; sourceTree = "<group>"; };
 		6517BAF81F505750001B1AEE /* SoundRecorderWrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SoundRecorderWrapper.mm; sourceTree = "<group>"; };
 		656A8AD01F50650100746316 /* fft4g.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = fft4g.c; sourceTree = "<group>"; };
 		6599B5A51F506DBE00197F7D /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../../../../Library/Frameworks/opencv2.framework; sourceTree = "<group>"; };
@@ -120,8 +116,6 @@
 				659B1B441F505C1300C9A7D4 /* ThirdParty */,
 				6517BAF61F50574F001B1AEE /* SoundRecorderWrapper.h */,
 				6517BAF81F505750001B1AEE /* SoundRecorderWrapper.mm */,
-				6517BAF71F505750001B1AEE /* WhichWord.h */,
-				6517BAF51F50574F001B1AEE /* WhichWord.mm */,
 				659B1BAC1F5060B000C9A7D4 /* SoundRecorder.cc */,
 				659B1BAD1F5060B000C9A7D4 /* SoundRecorder.hh */,
 				659B1BAB1F50608B00C9A7D4 /* japanese.hh */,
@@ -186,7 +180,6 @@
 			files = (
 				6517BAE91F505731001B1AEE /* SpeechFramework.h in Headers */,
 				6552AFAC1F5073880039DF95 /* SoundRecorderWrapper.h in Headers */,
-				6552AFAD1F50738B0039DF95 /* WhichWord.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,7 +252,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				659B1B121F50590C00C9A7D4 /* SoundRecorderWrapper.mm in Sources */,
-				659B1B131F50590E00C9A7D4 /* WhichWord.mm in Sources */,
 				659B1B941F505D2100C9A7D4 /* AquilaFft.cpp in Sources */,
 				659B1B951F505D2400C9A7D4 /* Dct.cpp in Sources */,
 				659B1B961F505D2800C9A7D4 /* Dft.cpp in Sources */,
@@ -319,6 +311,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -380,6 +373,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;

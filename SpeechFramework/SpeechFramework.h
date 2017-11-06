@@ -15,4 +15,3 @@ FOUNDATION_EXPORT double SpeechFrameworkVersionNumber;
 FOUNDATION_EXPORT const unsigned char SpeechFrameworkVersionString[];
 
 #import <SpeechFramework/SoundRecorderWrapper.h>
-#import <SpeechFramework/WhichWord.h>

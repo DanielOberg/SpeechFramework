@@ -49,6 +49,11 @@ static bool isPaused = false;
 static bool shouldStop = false;
 static bool isRunning = false;
 
+void init() {
+    isPaused = false;
+    shouldStop = false;
+}
+
 void setPause(bool p) {
     isPaused = p;
 }
