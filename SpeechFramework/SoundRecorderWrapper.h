@@ -28,5 +28,6 @@
 - (void)setPaused:(BOOL)p;
 - (void)stop;
 - (void)dealloc;
+-(void)uploadBlobToContainer: (NSString *)hiragana withData:(NSData *)data;
 @end
 

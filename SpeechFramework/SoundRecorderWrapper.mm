@@ -15,6 +15,7 @@
 #import <CoreVideo/CVPixelBuffer.h>
 
 #import <opencv2/imgcodecs/ios.h>
+#import <AZSClient/AZSClient.h>
 
 #import "SpellingBee.h"
 #import "SoundRecorder.hh"
@@ -136,6 +137,43 @@ std::string join(const T& v, const std::string& delim) {
         s << i;
     }
     return s.str();
+}
+
+-(void)uploadBlobToContainer: (NSString *)romaji withData:(NSData *)data {
+    NSError *accountCreationError;
+    
+    // Create a storage account object from a connection string.
+    AZSCloudStorageAccount *account = [AZSCloudStorageAccount accountFromConnectionString:@"DefaultEndpointsProtocol=https;AccountName=brutaljapanese;AccountKey=7W04u3TDzNie7B8wZboHNOflPhKcRrxfyF8Bx/7D21dSa9ewMQrAtYtSBc1blyMuUuUb8ffTcWy+JPSWlnD7WQ==;EndpointSuffix=core.windows.net" error:&accountCreationError];
+    
+    if(accountCreationError){
+        NSLog(@"Error in creating account.");
+    }
+    
+    // Create a blob service client object.
+    AZSCloudBlobClient *blobClient = [account getBlobClient];
+    
+    // Create a local container object.
+    AZSCloudBlobContainer *blobContainer = [blobClient containerReferenceFromName:[NSString stringWithFormat:@"raw-%@", romaji]];
+    
+    [blobContainer createContainerIfNotExistsWithAccessType:AZSContainerPublicAccessTypeContainer requestOptions:nil operationContext:nil completionHandler:^(NSError *error, BOOL exists)
+     {
+         if (error) {
+             NSLog(@"Error in creating container.");
+         }
+         else {
+             NSString *blobname = [[NSString stringWithFormat:@"%@",[[[NSUUID UUID] UUIDString] stringByReplacingOccurrencesOfString:@"-" withString:@""]] lowercaseString];
+             
+             // Create a local blob object
+             AZSCloudBlockBlob *blockBlob = [blobContainer blockBlobReferenceFromName:blobname];
+             
+             // Upload blob to Storage
+             [blockBlob uploadFromData:data completionHandler:^(NSError *error) {
+                 if (error){
+                     NSLog(@"Error in creating blob.");
+                 }
+             }];
+         }
+     }];
 }
 
 @end
